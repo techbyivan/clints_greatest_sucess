@@ -5,32 +5,34 @@ const db = require("./db");
 
 const allowedQueries = ['names-only'];
 
-app.get("/", (req,res)=>{
-    res.json({
-        "title":"Animals List",
-        "version":"0.1",
-        "instructions":`/animals = lists animals. \n /animals/{animal-type} = list animal types \n /animals/{id} = get animal by id`
-    })
-})
+app.use(express.static('site'));
 
 app.get("/animals", (req,res)=>{
-    let keys = Object.keys(req.query);
-    let filterBy = [...Object
-        .keys(req.query)
-        .filter(q=>!allowedQueries.includes(q))]
     
-    console.log(filterBy)
-    filtersBy.forEach(item=>{})
+    let filtersBy = {...req.query};
+    allowedQueries.forEach(a=>delete filtersBy[a]);
+    
+    let animals = [];
+    if(filtersBy === 0) {
+        animals = db.animals; 
+    } else {        
+        animals = db.filterBy(filtersBy);
+    }
 
-    if(keys.length === 0) return res.json(db.animals); 
-    res.json(db.filterBy(req.query));
-    
+    if(req.query['names-only']){
+        animals = animals.map(a=>a.name)
+    }
+    res.json(animals)
 })
 
-app.get("/animals/:id", (req,res)=>res.json(db.getAnimal(req.params.id)))
-
+//theses must be first
 app.get("/animals/cats", (req,res)=>res.json(db.findBy("type", "cat")))
 app.get("/animals/dogs", (req,res)=>res.json(db.findBy("type", "dog")))
+
+//because if not.. it assumes cats and dogs are the ids
+app.get("/animals/:id", (req,res)=>res.json(db.getAnimal(req.params.id)))
+
+
 
 app.listen(port, ()=>{
     console.log(`Listening on http://localhost:${port}`)

@@ -44,7 +44,6 @@ const animals = [
 ];
 
 const filterBy = (filters) => {
-    console.log(filters)
     return animals.filter(animal=>{
         for(attrib in filters){
             if(animal[attrib] != filters[attrib]){ 
