@@ -8,9 +8,17 @@
   },
   "devDependencies": {},
   "scripts": {
-    "dev":"nodemon app.js",
+    "dev": "nodemon app.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/techbyivan/clints_greatest_sucess.git"
+  },
+  "bugs": {
+    "url": "https://github.com/techbyivan/clints_greatest_sucess/issues"
+  },
+  "homepage": "https://github.com/techbyivan/clints_greatest_sucess#readme"
 }
